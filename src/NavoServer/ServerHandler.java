@@ -53,12 +53,15 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         System.out.println("channelRead of [SERVER]" + (String)msg);
         JSONObject json = JsonParser.createJson((String)msg);
-        switch ((String)json.get("Header")) {
+
+        switch ((String)json.get("Header")) { // Header를 보고 로직 분류.
             case "Auth":
-                Auth.Auth(ctx,json.get("Body").toString());
+                //Auth.Auth(ctx,json.get("Body").toString(), Integer.parseInt(json.get("Function").toString())); //Body 안의 정보, Function 번호
+                Auth.Auth(ctx,JsonParser.createJson(json.get("Body").toString()), Integer.parseInt(json.get("Function").toString()));
                 break;
             case "Event":
-                Event.Event(ctx,json.get("Body").toString());
+                //Event.Event(ctx,json.get("Body").toString());
+                Event.Event(ctx,JsonParser.createJson(json.get("Body").toString()), Integer.parseInt(json.get("Function").toString()));
                 break;
             case "InGame":
                 InGame.InGame(ctx,json.get("Body").toString());
