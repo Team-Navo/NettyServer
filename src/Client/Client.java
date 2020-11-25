@@ -1,4 +1,4 @@
-package Client;
+package dev.game.netty.client;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
@@ -13,6 +13,7 @@ import java.io.InputStreamReader;
 public class Client {
     static final String HOST = System.getProperty("host", "127.0.0.1");
     static final int PORT = Integer.parseInt(System.getProperty("port", "5001"));
+
 
 
     public static void main(String[] args) throws Exception {
@@ -32,7 +33,7 @@ public class Client {
 
             ChannelFuture lastWriteFuture = null;
             BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-            for (; ; ) {
+            for (;;) {
                 String line = in.readLine();
                 if (line == null) {
                     break;
@@ -56,4 +57,5 @@ public class Client {
             group.shutdownGracefully();
         }
     }
+
 }

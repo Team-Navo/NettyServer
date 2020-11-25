@@ -1,6 +1,7 @@
-package NavoServer;
+package dev.game.netty.server;
 
 import io.netty.bootstrap.ServerBootstrap;
+import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -22,6 +23,7 @@ public class Server {
             ServerBootstrap bootstrap = new ServerBootstrap();
             bootstrap.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
+                    .childOption(ChannelOption.TCP_NODELAY, true)
                     .handler(new LoggingHandler(LogLevel.INFO))
                     .childHandler(new ServerInitializer());
             bootstrap.bind(port).sync().channel().closeFuture().sync();
@@ -32,6 +34,6 @@ public class Server {
     }
 
     public static void main(String[] args) throws Exception {
-        new Server(5001).run();
+        new Server(1120).run();
     }
 }

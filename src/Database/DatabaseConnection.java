@@ -1,5 +1,6 @@
-package Database;
+package dev.game.netty.database;
 
+import dev.game.netty.database.table.User;
 
 import java.sql.*;
 
@@ -25,7 +26,6 @@ public class DatabaseConnection {
             connector = new DatabaseConnection();
         return connector;
     }
-
     // ID 중복 체크
     public boolean idCheck(User user) {
         String sql = "SELECT id FROM user WHERE id=?;";
@@ -36,8 +36,9 @@ public class DatabaseConnection {
             pstate.setString(1, user.getId());
             ResultSet rs = pstate.executeQuery();
 
-            rs.next();
-            result = rs.getString(1).equals(user.getId());
+            while (rs.next()) {
+                result = rs.getString("id").equals(user.getId());
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -107,8 +108,8 @@ public class DatabaseConnection {
             }
         }
         return null;
-    }
 
+    }
     // pw 찾기
     public String findPW(User user) {
         String sql = "SELECT pw FROM user WHERE id=? AND name=?;";
