@@ -62,6 +62,7 @@ public class Crewmate {
     @SuppressWarnings("unchecked")
     public JSONObject getUpdateCrewmateJson(){ // 지속적으로 업데이트 해야 할 정보
         JSONObject result = new JSONObject();
+
         result.put("owner",owner);
         result.put("x", x);
         result.put("y", y);
@@ -69,6 +70,7 @@ public class Crewmate {
         result.put("drmY",drmY);
         result.put("HP", HP);
         result.put("frameNum",frameNum);
+
         return result;
     }
 

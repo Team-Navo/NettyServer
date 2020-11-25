@@ -43,9 +43,10 @@ public class RoomNetty { // 게임 방
         return null;
     }
     //!
-    public static RoomNetty getMyRoom(int code) {
-            for(RoomNetty room:rooms) {
-                if(room.getRoomCode()==code) return room;
+    public static RoomNetty getRoomCode(int code) {
+            for(RoomNetty room : rooms) {
+                if(room.getRoomCode() == code)
+                    return room;
         }
         return null;
     }

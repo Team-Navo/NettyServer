@@ -51,20 +51,24 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        System.out.println("channelRead of [SERVER]" + (String)msg);
+        System.out.println("channelRead of [SERVER]" + msg);
         JSONObject json = JsonParser.createJson((String)msg);
 
         switch ((String)json.get("Header")) { // Header를 보고 로직 분류.
             case "Auth":
                 //Auth.Auth(ctx,json.get("Body").toString(), Integer.parseInt(json.get("Function").toString())); //Body 안의 정보, Function 번호
-                Auth.Auth(ctx,JsonParser.createJson(json.get("Body").toString()), Integer.parseInt(json.get("Function").toString()));
+                Auth.auth(ctx, JsonParser.createJson(json.get("Body").toString()), Integer.parseInt(json.get("Function").toString()));
+
+                // 클래스의 생성자에 메소드 구분 로직을 넣으면 어떨까요?
+                // new Auth(ctx, JsonParser.createJson(json.get("Body").toString()), Integer.parseInt(json.get("Function").toString()));
+
+                break;
+            case "Update":
+                new Update(ctx, JsonParser.createJson(json.get("Body").toString()), Integer.parseInt(json.get("Function").toString()));
                 break;
             case "Event":
                 //Event.Event(ctx,json.get("Body").toString());
-                Event.Event(ctx,JsonParser.createJson(json.get("Body").toString()), Integer.parseInt(json.get("Function").toString()), Integer.parseInt(json.get("roomCode").toString()));
-                break;
-            case "InGame":
-                InGame.InGame(ctx,json.get("Body").toString());
+                Event.event(ctx, JsonParser.createJson(json.get("Body").toString()), Integer.parseInt(json.get("Function").toString()), Integer.parseInt(json.get("roomCode").toString()));
                 break;
         }
     }
