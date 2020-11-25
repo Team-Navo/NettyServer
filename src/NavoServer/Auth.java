@@ -2,6 +2,8 @@ package NavoServer;
 
 import Database.DatabaseConnection;
 import Database.table.User;
+import Repository.Crewmate;
+import Repository.RoomNetty;
 import Util.JsonParser;
 import io.netty.channel.ChannelHandlerContext;
 import org.json.simple.JSONObject;
@@ -10,7 +12,6 @@ public class Auth {
     static DatabaseConnection db = DatabaseConnection.getConnector();
 
     public static void Auth(ChannelHandlerContext ctx, JSONObject json, int function) {
-        try {
             JSONObject parentJson = new JSONObject();
             JSONObject childJson = new JSONObject();
             //for test
@@ -30,6 +31,8 @@ public class Auth {
                 case 3: //findPW
                     findPW(ctx, json, parentJson, childJson);
                     break;
+                case 4: //enter
+                    enter(ctx, json, parentJson, childJson);
                 default:
                     parentJson.replace("Function",-1);
                     childJson.put("result","[WRONG] 잘못된 데이터");
@@ -37,13 +40,10 @@ public class Auth {
                     ctx.writeAndFlush(parentJson.toJSONString()+"\r\n");
                     System.out.println("[WRONG] 잘못된 데이터");
             }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public static void login(ChannelHandlerContext ctx, JSONObject json, JSONObject parentJson, JSONObject childJson) {
+
         //데이터베이스 검색을 위한 유저객체 저장
         User user = new User();
         user.setId((String)json.get("id"));
@@ -130,5 +130,24 @@ public class Auth {
         parentJson.put("Body",childJson);
         ctx.writeAndFlush(parentJson.toJSONString()+"\r\n");
     }
+    public static void enter(ChannelHandlerContext ctx, JSONObject json, JSONObject parentJson, JSONObject childJson) {
 
+        //참여 가능한 방 생성 및 유저의 현재정보 저장
+        RoomNetty room = RoomNetty.getRoom();
+        room.enter(ctx, json);
+
+        //새 방이라면 빈 값을, 있던 방이라면 크루메이트의 정보들 전송
+        JSONObject crewmatesJson = new JSONObject();
+        parentJson.put("roomCode", room.getRoomCode());
+        for (Crewmate crewmate : room.getCrewmates())
+            crewmatesJson.put(room.getCrewmates().indexOf(crewmate), crewmate.getInitCrewmateJson());
+
+        //결과 전송
+        childJson.put("crewmates", crewmatesJson);
+        parentJson.put("Body", childJson);
+        ctx.writeAndFlush(parentJson.toJSONString() + "\r\n");
+        //for test
+        System.out.println("enter : "+parentJson.toJSONString());
+
+    }
 }

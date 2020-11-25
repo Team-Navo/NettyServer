@@ -61,7 +61,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
                 break;
             case "Event":
                 //Event.Event(ctx,json.get("Body").toString());
-                Event.Event(ctx,JsonParser.createJson(json.get("Body").toString()), Integer.parseInt(json.get("Function").toString()));
+                Event.Event(ctx,JsonParser.createJson(json.get("Body").toString()), Integer.parseInt(json.get("Function").toString()), Integer.parseInt(json.get("roomCode").toString()));
                 break;
             case "InGame":
                 InGame.InGame(ctx,json.get("Body").toString());
