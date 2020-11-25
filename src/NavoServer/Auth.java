@@ -1,8 +1,8 @@
 package NavoServer;
 
+import Database.DatabaseConnection;
+import Database.table.User;
 import Util.JsonParser;
-import dev.game.netty.database.DatabaseConnection;
-import dev.game.netty.database.table.User;
 import io.netty.channel.ChannelHandlerContext;
 import org.json.simple.JSONObject;
 
