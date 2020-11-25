@@ -1,8 +1,8 @@
-package dev.game.netty.server;
+package NavoServer;
 
-import dev.game.netty.Util.JsonParser;
-import dev.game.netty.repository.Crewmate;
-import dev.game.netty.repository.Room;
+import Repository.Crewmate;
+import Repository.Room;
+import Util.JsonParser;
 import org.json.simple.JSONObject;
 
 import java.io.BufferedReader;

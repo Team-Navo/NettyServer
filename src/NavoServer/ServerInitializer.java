@@ -1,4 +1,4 @@
-package dev.game.netty.server;
+package NavoServer;
 
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;

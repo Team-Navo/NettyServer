@@ -1,6 +1,6 @@
-package dev.game.netty.database;
+package Database;
 
-import dev.game.netty.database.table.User;
+import Database.table.User;
 
 import java.sql.*;
 

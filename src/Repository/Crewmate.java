@@ -1,4 +1,4 @@
-package dev.game.netty.repository;
+package Repository;
 
 import org.json.simple.JSONObject;
 

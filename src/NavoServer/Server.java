@@ -1,4 +1,4 @@
-package dev.game.netty.server;
+package NavoServer;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelOption;

@@ -1,6 +1,6 @@
-package dev.game.netty.server;
+package NavoServer;
 
-import dev.game.netty.Util.JsonParser;
+import Util.JsonParser;
 import dev.game.netty.database.DatabaseConnection;
 import dev.game.netty.database.table.User;
 import io.netty.channel.ChannelHandlerContext;

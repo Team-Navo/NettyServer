@@ -1,4 +1,4 @@
-package dev.game.netty.client;
+package Client;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;

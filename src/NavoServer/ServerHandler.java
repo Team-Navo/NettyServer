@@ -1,6 +1,6 @@
-package dev.game.netty.server;
+package NavoServer;
 
-import dev.game.netty.Util.JsonParser;
+import Util.JsonParser;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.group.ChannelGroup;

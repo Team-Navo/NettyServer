@@ -1,4 +1,4 @@
-package dev.game.netty.database.table;
+package Database.table;
 
 public class User {
     private String id;

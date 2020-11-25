@@ -1,8 +1,8 @@
-package dev.game.netty.server;
+package NavoServer;
 
-import dev.game.netty.Util.JsonParser;
-import dev.game.netty.repository.Crewmate;
-import dev.game.netty.repository.RoomNetty;
+import Repository.Crewmate;
+import Repository.RoomNetty;
+import Util.JsonParser;
 import io.netty.channel.ChannelHandlerContext;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
