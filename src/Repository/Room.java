@@ -24,9 +24,6 @@ public class Room { // 게임 방
 
     public ChannelGroup getChannelGroup() { return channels; }
 
-    public static ArrayList<Room> getRooms() { return rooms; }
-
-    // !
     public ArrayList<Crewmate> getCrewmates() { return crewmates; }
 
     public int getRoomCode() { return roomCode; }
@@ -43,15 +40,6 @@ public class Room { // 게임 방
     public void enter(ChannelHandlerContext ctx, JSONObject json) {
         crewmates.add(new Crewmate(json));
         channels.add(ctx.channel());
-    }
-
-    public static Room getMyRoomByChannel(Channel channel) {
-        for(int i = 0; i < rooms.size(); i++) {
-            if(rooms.get(i).getChannelGroup().contains(channel)) {
-                return rooms.get(i);
-            }
-        }
-        return null;
     }
 
     // 방 생성 + 있는 방 리턴

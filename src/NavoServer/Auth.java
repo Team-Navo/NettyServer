@@ -34,12 +34,9 @@ public class Auth {
                 case 3: //findPW
                     findPW(ctx, json, parentJson, childJson);
                     break;
-                case 4: //enter
-                    enter(ctx, json, parentJson, childJson);
-                    break;
                 default:
                     parentJson.replace("Function",-1);
-                    childJson.put("result","-1");
+                    childJson.put("result",-1);
                     parentJson.put("Body",childJson);
 
                     ctx.writeAndFlush(parentJson.toJSONString() + "\r\n");
@@ -134,28 +131,5 @@ public class Auth {
         //검사결과 전송
         parentJson.put("Body",childJson);
         ctx.writeAndFlush(parentJson.toJSONString()+"\r\n");
-    }
-
-    public static void enter(ChannelHandlerContext ctx, JSONObject json, JSONObject parentJson, JSONObject childJson) {
-
-        //참여 가능한 방 생성 및 유저의 현재정보 저장
-        Room room = Room.selectRoom();
-        room.enter(ctx, json);
-
-        //새 방이라면 빈 값을, 있던 방이라면 크루메이트의 정보들 전송
-        JSONObject crewmatesJson = new JSONObject();
-        parentJson.put("roomCode", room.getRoomCode());
-
-        for (Crewmate crewmate : room.getCrewmates())
-            crewmatesJson.put(room.getCrewmates().indexOf(crewmate), crewmate.getInitCrewmateJson());
-
-        //결과 전송
-        childJson.put("crewmates", crewmatesJson);
-        parentJson.put("Body", childJson);
-
-        ctx.writeAndFlush(parentJson.toJSONString() + "\r\n");
-        //for test
-        System.out.println("enter : " + parentJson.toJSONString());
-
     }
 }
