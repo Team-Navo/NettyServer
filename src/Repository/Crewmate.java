@@ -24,19 +24,34 @@ public class Crewmate {
     int rate;
 
     //to json
+//    public Crewmate(JSONObject json) {
+//        this.owner=json.get("owner").toString();
+//        this.name=json.get("name").toString();
+//        this.color=json.get("color").toString();
+//
+//        this.x=(int)Double.parseDouble(json.get("x").toString());
+//        this.y=(int)Double.parseDouble(json.get("y").toString());
+//        this.drmX=Float.parseFloat(json.get("drmX").toString());
+//        this.drmY=Float.parseFloat(json.get("drmY").toString());
+//        this.maxHP=(int)Double.parseDouble(json.get("maxHP").toString());
+//        this.HP=(int)Double.parseDouble(json.get("HP").toString());
+//        this.frameNum=Integer.parseInt(json.get("frameNum").toString());
+//    }
     public Crewmate(JSONObject json) {
         this.owner=json.get("owner").toString();
         this.name=json.get("name").toString();
-        this.color=json.get("color").toString();
+        this.color="Blue";
 
-        this.x=(int)Double.parseDouble(json.get("x").toString());
-        this.y=(int)Double.parseDouble(json.get("y").toString());
-        this.drmX=Float.parseFloat(json.get("drmX").toString());
-        this.drmY=Float.parseFloat(json.get("drmY").toString());
-        this.maxHP=(int)Double.parseDouble(json.get("maxHP").toString());
-        this.HP=(int)Double.parseDouble(json.get("HP").toString());
-        this.frameNum=Integer.parseInt(json.get("frameNum").toString());
+        this.x=0;
+        this.y=0;
+        this.drmX=0;
+        this.drmY=0;
+        this.maxHP=10;
+        this.HP=10;
+        this.frameNum=0;
     }
+
+
 
     @SuppressWarnings("unchecked")
     public JSONObject getInitCrewmateJson(){ // 처음 유저가 입장 할 때는 전부 받아야 하니까 전부 출력

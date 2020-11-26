@@ -35,23 +35,6 @@ public class Event {
                 System.out.println("[WRONG] 잘못된 데이터");
                 break;
         }
-/*
-            if(json.get("Function").equals("5")) { //enter, Auth로 옮겼어
-                // enter(ctx, json, parentJson, childJson);
-            } else if(json.get("Function").equals("7")) { //shoot, 번호 바꿔야해
-
-            } else if(json.get("Function").equals("8")) { //hit, 번호 바꿔야해
-
-            } else if(json.get("Function").equals("9")) { //Exit
-               logout(ctx, json,parentJson,childJson,roomCode);
-            } else {
-                parentJson.replace("Function","-1");
-                childJson.put("result","[WRONG] 잘못된 데이터");
-                parentJson.put("Body",childJson);
-                ctx.writeAndFlush(parentJson.toJSONString()+"\n");
-                System.out.println("[WRONG] 잘못된 데이터");
-            }
- */
     }
 
     //들어오는 유저들에게는 내 정보 전송, 모든 유저의 정보 나에게 전송
@@ -82,8 +65,6 @@ public class Event {
         System.out.println("들어온 사람에게 들어가는 정보 : " + parentJson.toJSONString());
 
     }
-
-
 
     public static void logout(ChannelHandlerContext ctx, JSONObject json, JSONObject parentJson, JSONObject childJson, int roomCode) {
         Room room = Room.getRoomByCode(roomCode);
