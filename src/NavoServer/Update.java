@@ -1,16 +1,14 @@
 package NavoServer;
 
 import Repository.Crewmate;
-import Repository.RoomNetty;
-import Util.JsonParser;
+import Repository.Room;
 import io.netty.channel.ChannelHandlerContext;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException;
 
 // crewmates 변동 사항 업데이트
 public class Update {
 
-    public Update(ChannelHandlerContext ctx, JSONObject json, int function, int roomCode) {
+    public static void update(ChannelHandlerContext ctx, JSONObject json, int function, int roomCode) {
         JSONObject parentJson = new JSONObject();
         JSONObject childJson = new JSONObject();
         // for test
@@ -21,10 +19,10 @@ public class Update {
 
         switch(function) {
             case 0: // update
-                update(json, parentJson, childJson, roomCode);
+                update(json, roomCode, parentJson, childJson);
                 break;
             default:
-                parentJson.replace("Function", -1);
+                parentJson.replace("Function", function);
                 childJson.put("result", -1);
                 parentJson.put("Body", childJson);
 
@@ -34,26 +32,19 @@ public class Update {
         }
     }
 
-    public static void update(JSONObject json, JSONObject parentJson, JSONObject childJson, int roomCode) {
+    public static void update(JSONObject json, int roomCode, JSONObject parentJson, JSONObject childJson) {
 
-        RoomNetty room = RoomNetty.getRoomByCode(roomCode);
         childJson.put("roomCode", roomCode);
 
-        //?
-//        try {
-            //room.update(JsonParser.createJson(json.get("crewmates").toString())); // 변경 사항 업데이트
-            room.update(json);
-//        } catch(ParseException e) {
-//            e.printStackTrace();
-//        }
+        Room room = Room.getRoomByCode(roomCode);
+        room.update(json);
 
-        for(Crewmate crewmate : room.getCrewmates()) {
+        for(Crewmate crewmate : room.getCrewmates())
             childJson.put(room.getCrewmates().indexOf(crewmate), crewmate.getUpdateCrewmateJson());
-        }
+
         childJson.put("crewmates_size", room.getCrewmates().size());
         parentJson.put("Body", childJson);
 
         room.getChannelGroup().writeAndFlush(parentJson.toJSONString() + "\r\n");
-//        ctx.writeAndFlush(parentJson.toJSONString() + "\r\n");
     }
 }

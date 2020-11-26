@@ -3,7 +3,7 @@ package NavoServer;
 import Database.DatabaseConnection;
 import Database.table.User;
 import Repository.Crewmate;
-import Repository.RoomNetty;
+import Repository.Room;
 import io.netty.channel.ChannelHandlerContext;
 import org.json.simple.JSONObject;
 
@@ -139,7 +139,7 @@ public class Auth {
     public static void enter(ChannelHandlerContext ctx, JSONObject json, JSONObject parentJson, JSONObject childJson) {
 
         //참여 가능한 방 생성 및 유저의 현재정보 저장
-        RoomNetty room = RoomNetty.getRoom();
+        Room room = Room.selectRoom();
         room.enter(ctx, json);
 
         //새 방이라면 빈 값을, 있던 방이라면 크루메이트의 정보들 전송
