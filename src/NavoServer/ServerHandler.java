@@ -64,7 +64,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 
                 break;
             case "Update":
-                new Update(ctx, JsonParser.createJson(json.get("Body").toString()), Integer.parseInt(json.get("Function").toString()));
+                new Update(ctx, JsonParser.createJson(json.get("Body").toString()), Integer.parseInt(json.get("Function").toString()), Integer.parseInt(json.get("roomCode").toString()));
                 break;
             case "Event":
                 //Event.Event(ctx,json.get("Body").toString());

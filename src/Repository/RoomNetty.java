@@ -15,8 +15,6 @@ public class RoomNetty { // 게임 방
     private static ArrayList<RoomNetty> rooms = new ArrayList<>();
     int roomCode;
 
-    public void addChannel(Channel channel) { channels.add(channel); }
-
     public ChannelGroup getChannelGroup() { return channels;}
 
     public int getRoomCode() { return roomCode; }
@@ -43,7 +41,7 @@ public class RoomNetty { // 게임 방
         return null;
     }
     //!
-    public static RoomNetty getRoomCode(int code) {
+    public static RoomNetty getRoomByCode(int code) {
             for(RoomNetty room : rooms) {
                 if(room.getRoomCode() == code)
                     return room;

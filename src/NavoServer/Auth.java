@@ -9,8 +9,8 @@ import org.json.simple.JSONObject;
 
 // 각종 인증 관련
 public class Auth {
-    private static JSONObject parentJson;
-    private static JSONObject childJson;
+//    private static JSONObject parentJson;
+//    private static JSONObject childJson;
     static DatabaseConnection db = DatabaseConnection.getConnector();
 
     public static void auth(ChannelHandlerContext ctx, JSONObject json, int function) {
@@ -49,7 +49,6 @@ public class Auth {
     }
 
     public static void login(ChannelHandlerContext ctx, JSONObject json, JSONObject parentJson, JSONObject childJson) {
-
         //데이터베이스 검색을 위한 유저객체 저장
         User user = new User();
         user.setId((String)json.get("id"));

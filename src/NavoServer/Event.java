@@ -27,7 +27,7 @@ public class Event {
             case 4: //shoot
             default:
                 parentJson.replace("Function", -1);
-                childJson.put("result", "-1");
+                childJson.put("result", -1);
                 parentJson.put("Body", childJson);
                 ctx.writeAndFlush(parentJson.toJSONString() + "\r\n");
                 System.out.println("[WRONG] 잘못된 데이터");
@@ -53,7 +53,7 @@ public class Event {
     }
 
     public static void logout(ChannelHandlerContext ctx, JSONObject json, JSONObject parentJson, JSONObject childJson, int roomCode) {
-        RoomNetty room = RoomNetty.getRoomCode(roomCode);
+        RoomNetty room = RoomNetty.getRoomByCode(roomCode);
 
         //crewmate 찾아 제거
         room.getCrewmates().remove(json.get("owner").toString());
