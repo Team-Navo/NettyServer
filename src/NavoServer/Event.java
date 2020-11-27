@@ -23,10 +23,10 @@ public class Event {
                 enter(ctx, json, parentJson, childJson);
                 break;
             case 1:
-            case 2: //shoot
-            case 3: //changeColor
+            case 2: //changeColor
                 changeColor(json, parentJson, roomCode);
                 break;
+            case 3: //shoot
             case 4:
                 logout(ctx, json, parentJson, childJson, roomCode);
                 break;
