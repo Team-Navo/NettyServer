@@ -9,11 +9,9 @@ import org.json.simple.JSONObject;
 
 // 각종 인증 관련
 public class Auth {
-//    private static JSONObject parentJson;
-//    private static JSONObject childJson;
     static DatabaseConnection db = DatabaseConnection.getConnector();
 
-    public static void auth(ChannelHandlerContext ctx, JSONObject json, int function) {
+    public static void auth(ChannelHandlerContext ctx, JSONObject json, String function) {
             JSONObject parentJson = new JSONObject();
             JSONObject childJson = new JSONObject();
             //for test
@@ -22,16 +20,16 @@ public class Auth {
             parentJson.put("Function",function);
 
             switch (function) {
-                case 0: //login
+                case "0": //login
                     login(ctx, json, parentJson, childJson);
                     break;
-                case 1: //create
+                case "1": //create
                     signUp(ctx, json, parentJson, childJson);
                     break;
-                case 2: //findID
+                case "2": //findID
                     findID(ctx, json, parentJson, childJson);
                     break;
-                case 3: //findPW
+                case "3": //findPW
                     findPW(ctx, json, parentJson, childJson);
                     break;
                 default:
@@ -53,15 +51,16 @@ public class Auth {
 
         //검사 후 결과값 저장
         if(db.userLogin(user)) {
-            childJson.put("result",1);
+            childJson.put("result","1");
             System.err.println("[SUCCESS] login");
         } else {
-            childJson.put("result",0);
+            childJson.put("result","0");
             System.err.println("[FAIL] login");
         }
 
         //검사결과 전송
         parentJson.put("Body",childJson);
+        System.out.println("Auth 64 : " + parentJson);
         ctx.writeAndFlush(parentJson.toJSONString()+"\r\n");
     }
 
@@ -77,11 +76,11 @@ public class Auth {
 
         //검사 후 결과값 저장
         if (db.createUser(user)) {
-            childJson.put("result",1);
-            System.out.println("[SUCCESS] signUp");
+            childJson.put("result","1");
+            System.out.println("[SUCCESS] signUP");
         } else {
-            childJson.put("result",0);
-            System.err.println("[FAIL] signUp");
+            childJson.put("result","0");
+            System.err.println("[FAIL] signUP");
         }
 
         //검사결과 전송
@@ -102,7 +101,7 @@ public class Auth {
             childJson.put("result",result);
             System.out.println("[SUCCESS] findID : " + result);
         } else {
-            childJson.put("result",0);
+            childJson.put("result","0");
             System.err.println("[FAIL] findID");
         }
 
@@ -124,7 +123,7 @@ public class Auth {
             childJson.put("result",result);
             System.out.println("[SUCCESS] findPW : " + result);
         } else {
-            childJson.put("result",0);
+            childJson.put("result","0");
             System.err.println("[FAIL] findPW");
         }
 

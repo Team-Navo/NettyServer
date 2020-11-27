@@ -27,6 +27,7 @@ public class Event {
             case 3:
             case 4: //enter
                 enter(ctx, json, parentJson, childJson);
+                break;
             default:
                 parentJson.replace("Function", function);
                 childJson.put("result", -1);
@@ -44,9 +45,11 @@ public class Event {
         Room room = Room.selectRoom();
         parentJson.put("roomCode", room.getRoomCode());
         parentJson.put("Body",json);
-        room.getChannelGroup().writeAndFlush(parentJson.toJSONString()+"\r\n");
+        room.getChannelGroup().writeAndFlush(parentJson.toJSONString() + "\r\n");
+
         //for test
-        System.out.println("들어온 사람의 정보가 모두에게 : " + parentJson.toJSONString());
+        System.out.println("들어온 사람의 정보가 모두에게 : " + parentJson.toJSONString()); // function 1번으로 변경 바람
+
         //방에 있던 크루메이트들 정보 json으로 저장
         if(!room.getCrewmates().isEmpty())
             for (Crewmate crewmate : room.getCrewmates())
