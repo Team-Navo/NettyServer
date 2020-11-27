@@ -59,33 +59,24 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 
         switch ((String)json.get("Header")) { // Header 를 보고 로직 분류
             case "Auth":
-                Auth.auth(ctx, JsonParser.createJson(json.get("Body").toString()), json.get("Function").toString());
+                Auth.auth(ctx
+                        ,JsonParser.createJson(json.get("Body").toString())
+                        ,json.get("Function").toString());
                 break;
+
             case "Update":
-                Update.update(ctx, JsonParser.createJson(json.get("Body").toString()),
-                        Integer.parseInt(json.get("Function").toString()),
-                        Integer.parseInt(json.get("roomCode").toString()));
+                Update.update(ctx, JsonParser.createJson(json.get("Body").toString())
+                        ,Integer.parseInt(json.get("Function").toString())
+                        ,Integer.parseInt(json.get("roomCode").toString()));
                 break;
 
             case "Event":
                 System.out.println("Event Received : " + json.toJSONString());
+                Event.event(ctx, JsonParser.createJson(json.get("Body").toString())
+                        ,Integer.parseInt(json.get("Function").toString())
+                        ,Integer.parseInt(json.get("roomCode").toString()));
+                break;
 
-                JSONObject parentJson = new JSONObject();
-                JSONObject childJson = new JSONObject();
-
-                parentJson.put("Header", "Event");
-                parentJson.put("Function", json.get("Function").toString());
-
-                switch ((String)json.get("Function")) {
-                    case "0": // enter
-                        Event.enter(ctx, JsonParser.createJson(json.get("Body").toString()), parentJson, childJson);
-                        break;
-                }
-                /*
-                Event.event(ctx, JsonParser.createJson(json.get("Body").toString()),
-                        Integer.parseInt(json.get("Function").toString()),
-                        Integer.parseInt(json.get("roomCode").toString()));
-                 */
         }
     }
 }

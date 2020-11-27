@@ -4,9 +4,9 @@ import org.json.simple.JSONObject;
 
 public class Crewmate {
     //처음 한번만 전송
-    String owner; // 캐릭터 주인 아이디
+    public String owner; // 캐릭터 주인 아이디
     String name; // 캐릭터 이름
-    String color; // 캐릭터 컬러
+    public String color; // 캐릭터 컬러
     int maxHP; // 최대 체력
 
     //지속적으로 업데이트
@@ -59,17 +59,17 @@ public class Crewmate {
 
         result.put("owner", owner);
         result.put("name", name);
-        result.put("color", color);
+//        result.put("color", color);
 
-        result.put("x", x);
-        result.put("y", y);
-        result.put("drmX", drmX);
-        result.put("drmY", drmY);
-
-        result.put("maxHP", maxHP);
-        result.put("HP", HP);
-
-        result.put("frameNum", frameNum);
+//        result.put("x", x);
+//        result.put("y", y);
+//        result.put("drmX", drmX);
+//        result.put("drmY", drmY);
+//
+//        result.put("maxHP", maxHP);
+//        result.put("HP", HP);
+//
+//        result.put("frameNum", frameNum);
 
         return result;
     }

@@ -14,7 +14,7 @@ public class Update {
         // for test
         System.out.println("Update Received : " + json);
 
-        parentJson.put("Header", "Update"); //?
+        parentJson.put("Header", "Update");
         parentJson.put("Function", function);
 
         switch(function) {
