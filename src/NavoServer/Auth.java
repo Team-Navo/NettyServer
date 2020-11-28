@@ -12,35 +12,35 @@ public class Auth {
     static DatabaseConnection db = DatabaseConnection.getConnector();
 
     public static void auth(ChannelHandlerContext ctx, JSONObject json, String function) {
-            JSONObject parentJson = new JSONObject();
-            JSONObject childJson = new JSONObject();
-            //for test
-            System.out.println("Auth Received : " + json);
-            parentJson.put("Header","Auth");
-            parentJson.put("Function",function);
+        JSONObject parentJson = new JSONObject();
+        JSONObject childJson = new JSONObject();
+        //for test
+        System.out.println("Auth Received : " + json);
+        parentJson.put("Header","Auth");
+        parentJson.put("Function",function);
 
-            switch (function) {
-                case "0": //login
-                    login(ctx, json, parentJson, childJson);
-                    break;
-                case "1": //create
-                    signUp(ctx, json, parentJson, childJson);
-                    break;
-                case "2": //findID
-                    findID(ctx, json, parentJson, childJson);
-                    break;
-                case "3": //findPW
-                    findPW(ctx, json, parentJson, childJson);
-                    break;
-                default:
-                    parentJson.replace("Function",-1);
-                    childJson.put("result",-1);
-                    parentJson.put("Body",childJson);
+        switch (function) {
+            case "0": //login
+                login(ctx, json, parentJson, childJson);
+                break;
+            case "1": //create
+                signUp(ctx, json, parentJson, childJson);
+                break;
+            case "2": //findID
+                findID(ctx, json, parentJson, childJson);
+                break;
+            case "3": //findPW
+                findPW(ctx, json, parentJson, childJson);
+                break;
+            default:
+                parentJson.replace("Function",-1);
+                childJson.put("result",-1);
+                parentJson.put("Body",childJson);
 
-                    ctx.writeAndFlush(parentJson.toJSONString() + "\r\n");
-                    System.out.println("[WRONG] 잘못된 데이터");
-                    break;
-            }
+                ctx.writeAndFlush(parentJson.toJSONString() + "\r\n");
+                System.out.println("[WRONG] 잘못된 데이터");
+                break;
+        }
     }
 
     public static void login(ChannelHandlerContext ctx, JSONObject json, JSONObject parentJson, JSONObject childJson) {
