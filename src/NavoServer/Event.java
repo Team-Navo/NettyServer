@@ -28,13 +28,15 @@ public class Event {
             case "0": //enter
                 enter(ctx, JsonParser.createJson(json.get("Body").toString()), parentJson);
                 break;
-            case "1": //enter
+            case "1": //logout
+                exit(ctx, json, parentJson, Integer.parseInt(json.get("roomCode").toString()));
                 break;
             case "2": //changeColor
-                changeColor(json, parentJson, Integer.parseInt(json.get("roomCode").toString()));
+                changeColor(parentJson, (JSONObject)json.get("Body"), Integer.parseInt(json.get("roomCode").toString()));
+                break;
             case "3": //shoot
-            case "4": //logout
-                exit(ctx, json, parentJson, Integer.parseInt(json.get("roomCode").toString()));
+                break;
+            case "4":
                 break;
             default:
                 childJson.put("result", -1);
@@ -44,18 +46,20 @@ public class Event {
                 break;
         }
     }
-    public static void changeColor(JSONObject json, JSONObject parentJson, int roomCode) {
-        Room room=Room.getRoomByCode(roomCode);
-        for(Crewmate crewmate:room.getCrewmates()) {
+
+    public static void changeColor(JSONObject parentJson, JSONObject json, int roomCode) {
+        Room room = Room.getRoomByCode(roomCode);
+        for(Crewmate crewmate : room.getCrewmates()) {
             if(crewmate.getOwner().equals(json.get("owner").toString())) {
                 crewmate.setColor(json.get("color").toString());
                 break;
             }
         }
-        parentJson.put("Body",json);
-        parentJson.put("roomCode",roomCode);
-        room.getChannelGroup().writeAndFlush(parentJson.toJSONString()+"\r\n");
+        parentJson.put("Body", json);
+        parentJson.put("roomCode", roomCode);
+        room.getChannelGroup().writeAndFlush(parentJson.toJSONString() + "\r\n");
     }
+
     //들어오는 유저들에게는 내 정보 전송, 모든 유저의 정보 나에게 전송
     public static void enter(ChannelHandlerContext ctx, JSONObject json, JSONObject parentJson) {
 
