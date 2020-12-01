@@ -1,12 +1,16 @@
 package NavoServer;
 
+
 import Util.JsonParser;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.util.concurrent.GlobalEventExecutor;
 import org.json.simple.JSONObject;
+
+
 
 public class ServerHandler extends ChannelInboundHandlerAdapter {
 
@@ -32,13 +36,19 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void handlerRemoved(ChannelHandlerContext ctx) {
         System.out.println("handlerRemoved of [SERVER]");
+
 //        Channel incoming = ctx.channel();
+//
+//        //사용자가 나갔을 때 기존 사용자에게 알림
 //        for (Channel channel : channelGroup) {
-//            //사용자가 나갔을 때 기존 사용자에게 알림
 //            channel.write("[SERVER] - " + incoming.remoteAddress() + "has left!\n");
 //            channelGroup.remove(incoming);
 //        }
+    }
 
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) { // handlerRemoved Exception Catch
+        ctx.close();
     }
 
     @Override
@@ -54,23 +64,22 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        System.out.println("channelRead of [SERVER]" + msg);
-        JSONObject json = JsonParser.createJson((String)msg);
+        JSONObject json = JsonParser.createJson(msg.toString());
 
-        switch ((String)json.get("Header")) { // Header 를 보고 로직 분류
+        switch ((String)json.get("Header")) {
             case "Auth":
-                Auth.auth(ctx, JsonParser.createJson(json.get("Body").toString()), json.get("Function").toString());
+                System.out.println("[Auth Received] : " + json);
+                Auth.auth(ctx, (JSONObject)json.get("Body"), json.get("Function").toString());
                 break;
             case "Update":
-                Update.update(ctx, JsonParser.createJson(json.get("Body").toString()),
-                        Integer.parseInt(json.get("Function").toString()),
-                        Integer.parseInt(json.get("roomCode").toString()));
+                System.out.println("[Update Received] : " + json);
+                Update.update(ctx, (JSONObject)(json.get("Body"))
+                        ,json.get("Function").toString()
+                        ,Integer.parseInt(json.get("roomCode").toString()));
                 break;
-
             case "Event":
-                System.out.println("Event Received : " + json.toJSONString());
+                System.out.println("[Event Received] : " + json);
                 Event.event(ctx, json);
-
         }
     }
 }

@@ -15,6 +15,7 @@ public class Room { // 게임 방
     ArrayList<Crewmate> crewmates; // 참가자들
     private static ArrayList<Room> rooms = new ArrayList<>();
     int roomCode;
+    String Super;
 
     public Room(int roomCode) {
         this.roomCode = roomCode;
@@ -37,15 +38,24 @@ public class Room { // 게임 방
         return null;
     }
 
+    public void setSuper(String Super) {
+        this.Super=Super;
+    }
+
+    public String getSuper() {
+        return Super;
+    }
+
     public void enter(ChannelHandlerContext ctx, JSONObject json) {
         crewmates.add(new Crewmate(json));
         channels.add(ctx.channel());
     }
 
-    // 방 생성 + 있는 방 리턴
-    public static Room selectRoom() {
-        if(rooms.size() == 0) { // 방 하나도 없음
+    // 방 생성 + 생성되어 있는 방 리턴
+    public static Room selectRoom(String owner) {
+        if(rooms.size() == 0) { // 방 없음
             rooms.add(new Room(1));
+            Room.getRoomByCode(1).Super = owner;
         }
 
         for(Room room : rooms)

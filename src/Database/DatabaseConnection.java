@@ -165,4 +165,8 @@ public class DatabaseConnection {
         }
         return result;
     }
+
+    public static void disconnect() throws SQLException {
+        DatabaseConnection.getConnector().conn.close();
+    }
 }

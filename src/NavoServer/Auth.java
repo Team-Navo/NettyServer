@@ -14,8 +14,7 @@ public class Auth {
     public static void auth(ChannelHandlerContext ctx, JSONObject json, String function) {
         JSONObject parentJson = new JSONObject();
         JSONObject childJson = new JSONObject();
-        //for test
-        System.out.println("Auth Received : " + json);
+
         parentJson.put("Header","Auth");
         parentJson.put("Function",function);
 
@@ -49,7 +48,7 @@ public class Auth {
         user.setId((String)json.get("id"));
         user.setPw((String)json.get("pw"));
 
-        //검사 후 결과값 저장
+        //검사 후 결과 값 저장
         if(db.userLogin(user)) {
             childJson.put("result","1");
             System.err.println("[SUCCESS] login");
@@ -58,9 +57,8 @@ public class Auth {
             System.err.println("[FAIL] login");
         }
 
-        //검사결과 전송
+        //검사 결과 전송
         parentJson.put("Body",childJson);
-        System.out.println("Auth 64 : " + parentJson);
         ctx.writeAndFlush(parentJson.toJSONString()+"\r\n");
     }
 
