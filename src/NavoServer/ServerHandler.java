@@ -1,6 +1,7 @@
 package NavoServer;
 
 
+import Repository.Room;
 import Util.JsonParser;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
@@ -15,7 +16,11 @@ import org.json.simple.JSONObject;
 public class ServerHandler extends ChannelInboundHandlerAdapter {
 
     private static final ChannelGroup channelGroup = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
-
+    //private static final ArrayList<>
+    private class Node {
+        Channel ch;
+        int roomCode;
+    }
     @Override
     public void handlerAdded(ChannelHandlerContext ctx) {
         System.out.println("handlerAdded of [SERVER]");
@@ -37,23 +42,32 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
     public void handlerRemoved(ChannelHandlerContext ctx) {
         System.out.println("handlerRemoved of [SERVER]");
 
-//        Channel incoming = ctx.channel();
-//
-//        //사용자가 나갔을 때 기존 사용자에게 알림
-//        for (Channel channel : channelGroup) {
-//            channel.write("[SERVER] - " + incoming.remoteAddress() + "has left!\n");
-//            channelGroup.remove(incoming);
+//        JSONObject temp=new JSONObject();
+//        for(Room room:Room.rooms) {
+//            for(int i=0;i<room.getCrewmates().size();i++) {
+//                if(room.getCrewmates().get(i).getId().equals(ctx.channel().id())) {
+//                    System.out.println(i);
+//                    temp.put("Header","Event");
+//                    temp.put("Functon","4");
+//                    temp.put("roomCode",room.getRoomCode());
+//                    temp.put("Body",room.getCrewmates().get(i).getOwner());
+//                    Event.exitEmergency(ctx,temp,room.getRoomCode());
+//                    break;
+//                    //room.getChannelGroup().writeAndFlush(temp.toJSONString()+"\r\n");
+//                    //room.getCrewmates().remove(i);
+//                }
+//            }
 //        }
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) { // handlerRemoved Exception Catch
-        ctx.close();
+//        ctx.close();
     }
 
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) {
-        ctx.flush();
+//        ctx.flush();
     }
 
     @Override

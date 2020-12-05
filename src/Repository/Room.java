@@ -13,8 +13,10 @@ public class Room { // 게임 방
 
     ChannelGroup channels;
     ArrayList<Crewmate> crewmates; // 참가자들
-    private static ArrayList<Room> rooms = new ArrayList<>();
+    public static ArrayList<Room> rooms = new ArrayList<>();
+
     int roomCode;
+    int aliveCrew;
     String Super;
 
     public Room(int roomCode) {
@@ -23,11 +25,19 @@ public class Room { // 게임 방
         this.channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
     }
 
-    public ChannelGroup getChannelGroup() { return channels; }
+    public void deleteRoom(int roomCode) {
+        rooms.remove(Room.getRoomByCode(roomCode));
+    }
+
+    public ChannelGroup getChannelGroup() { return channels;}
 
     public ArrayList<Crewmate> getCrewmates() { return crewmates; }
 
     public int getRoomCode() { return roomCode; }
+
+    public void setAliveCrew(int aliveCrew) { this.aliveCrew = aliveCrew; }
+
+    public int getAliveCrew() { return aliveCrew; }
 
     //!
     public static Room getRoomByCode(int code) {
@@ -47,7 +57,7 @@ public class Room { // 게임 방
     }
 
     public void enter(ChannelHandlerContext ctx, JSONObject json) {
-        crewmates.add(new Crewmate(json));
+        crewmates.add(new Crewmate(json,ctx.channel().id()));
         channels.add(ctx.channel());
     }
 

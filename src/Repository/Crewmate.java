@@ -1,5 +1,6 @@
 package Repository;
 
+import io.netty.channel.ChannelId;
 import org.json.simple.JSONObject;
 
 public class Crewmate {
@@ -26,6 +27,8 @@ public class Crewmate {
     int rate;
     boolean Super = false;
 
+    ChannelId id;
+
     public void setOwner(String owner) {
         this.owner = owner;
     }
@@ -39,6 +42,8 @@ public class Crewmate {
     public void setGun(String gun) { this.gun = gun; }
 
     public void makeSuper() { this.Super = true; }
+
+    public ChannelId getId() {return id;}
 
     //to json
 //    public Crewmate(JSONObject json) {
@@ -54,7 +59,8 @@ public class Crewmate {
 //        this.HP=(int)Double.parseDouble(json.get("HP").toString());
 //        this.frameNum=Integer.parseInt(json.get("frameNum").toString());
 //    }
-    public Crewmate(JSONObject json) {
+    public Crewmate(JSONObject json, ChannelId id) {
+        this.id=id;
         this.owner = json.get("owner").toString();
         this.name = json.get("name").toString();
         this.color = "Blue";
@@ -69,8 +75,6 @@ public class Crewmate {
 
         this.frameNum = 0;
     }
-
-
 
     @SuppressWarnings("unchecked")
     // 처음 유저가 입장 할 때는 전부 받아야 하니까 전부 출력
