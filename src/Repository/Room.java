@@ -8,6 +8,7 @@ import io.netty.util.concurrent.GlobalEventExecutor;
 import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Room { // 게임 방
 
@@ -16,7 +17,9 @@ public class Room { // 게임 방
     public static ArrayList<Room> rooms = new ArrayList<>();
 
     int roomCode;
+
     int aliveCrew;
+
     String Super;
 
     public Room(int roomCode) {
@@ -39,7 +42,6 @@ public class Room { // 게임 방
 
     public int getAliveCrew() { return aliveCrew; }
 
-    //!
     public static Room getRoomByCode(int code) {
         for (Room room : rooms) {
             if (room.getRoomCode() == code)

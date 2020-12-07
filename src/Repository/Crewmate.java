@@ -131,6 +131,7 @@ public class Crewmate {
 //        this.maxHP = (int)temp;
 
         temp = Double.parseDouble(requestJson.get("HP").toString());
+
         this.HP = (int)temp;
 
         this.frameNum = Integer.parseInt(requestJson.get("frameNum").toString());

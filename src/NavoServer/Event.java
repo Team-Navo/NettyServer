@@ -9,7 +9,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
 import java.lang.reflect.Parameter;
-import java.util.Iterator;
+import java.util.*;
 
 // 초기화, 충돌 체크
 public class Event {
@@ -49,6 +49,8 @@ public class Event {
                 break;
             case "8" : //deleteCrew
                 deleteCrew(ctx, (JSONObject)json.get("Body"), parentJson, Integer.parseInt(json.get("roomCode").toString()));
+                break;
+            case "9" :
                 break;
             default:
                 childJson.put("result", "-1");
@@ -93,16 +95,43 @@ public class Event {
         System.out.println("새 crewmate에게 전달되는 정보 : " + parentJson.toJSONString());
 
     }
-
+    private static class Node {
+        int x, y;
+        public Node(int x, int y) {
+            this.x=x;
+            this.y=y;
+        }
+    }
     // startGame 방장이 게임 시작
     public static void startGame(JSONObject parentJson, int roomCode) {
+        //roomCode 기준으로 room 가져옴
         Room room = Room.getRoomByCode(roomCode);
 
+        Stack<Node> q=new Stack<>();
+        q.push(new Node(13,17)); //1
+        q.push(new Node(13,641)); //1
+        q.push(new Node(13,1246)); //1
+        q.push(new Node(812,1249)); //1/1/4
+        q.push(new Node(1564,1246)); //1
+        q.push(new Node(1564,638)); //1
+        q.push(new Node(1564,17)); //1
+        q.push(new Node(812,17)); //1
+        Collections.shuffle(q);
+
+        parentJson.put("x","0");
+        parentJson.put("y","0");
+
         System.out.println("startGame : " + parentJson.toJSONString());
-        room.getChannelGroup().writeAndFlush(parentJson.toJSONString()+"\r\n");
+        for(Channel ch:room.getChannelGroup()) {
+            Node temp=q.pop();
+            parentJson.replace("x",temp.x);
+            parentJson.replace("y",temp.y);
+            ch.writeAndFlush(parentJson.toJSONString() + "\r\n");
+        }
 
         // 살아있는 crewmates 5명으로 초기화
         room.setAliveCrew(5);
+
     }
 
     // changeSuper 방장 변경
@@ -125,6 +154,12 @@ public class Event {
                 crewmate.setGun(json.get("gun").toString());
                 break;
             }
+        JSONObject childJson = new JSONObject();
+//        0~19
+//        0:2, 1:3, 2:1, ~~~~19:3
+        for(int i=0;i<20;i++) {
+            childJson.put(i,(int)(Math.random()*3+1));
+        }
 
         parentJson.put("roomCode", roomCode);
         parentJson.put("Body", json);
@@ -157,6 +192,13 @@ public class Event {
         parentJson.put("roomCode", roomCode);
 
         room.getChannelGroup().writeAndFlush(parentJson.toJSONString() + "\r\n"); // 다른 crewmates 에게 전송
+    }
+
+    public static void entity(ChannelHandlerContext ctx, JSONObject parentJson, JSONObject json, int roomCode) {
+        // 알약 0~11, 무기 12~19
+
+
+
     }
 
     // deleteCrew 죽은 크루메이트를 room 에서 삭제
