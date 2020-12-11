@@ -3,6 +3,7 @@ package NavoServer;
 import Repository.Crewmate;
 import Repository.Room;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.codec.json.JsonObjectDecoder;
 import org.json.simple.JSONObject;
 
 // crewmates 변동 사항 업데이트
@@ -15,7 +16,7 @@ public class Update {
         parentJson.put("Header", "Update");
         parentJson.put("Function", function);
 
-        switch(function) {
+        switch (function) {
             case "0": // update
                 update(json, roomCode, parentJson, childJson);
                 break;
@@ -37,11 +38,12 @@ public class Update {
         Room room = Room.getRoomByCode(roomCode);
         room.update(json);
 
-        for(Crewmate crewmate : room.getCrewmates())
+        for (Crewmate crewmate : room.getCrewmates())
             childJson.put(room.getCrewmates().indexOf(crewmate), crewmate.getUpdateCrewmateJson());
 
         childJson.put("crewmates_size", room.getCrewmates().size());
         parentJson.put("Body", childJson);
         room.getChannelGroup().writeAndFlush(parentJson.toJSONString() + "\r\n");
     }
+
 }

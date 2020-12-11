@@ -29,6 +29,8 @@ public class Crewmate {
 
     ChannelId id;
 
+    public ChannelId getId() {return id;}
+
     public void setOwner(String owner) {
         this.owner = owner;
     }
@@ -39,28 +41,11 @@ public class Crewmate {
 
     public void setColor(String color) { this.color = color; }
 
-    public void setGun(String gun) { this.gun = gun; }
-
     public void makeSuper() { this.Super = true; }
 
-    public ChannelId getId() {return id;}
 
-    //to json
-//    public Crewmate(JSONObject json) {
-//        this.owner=json.get("owner").toString();
-//        this.name=json.get("name").toString();
-//        this.color=json.get("color").toString();
-//
-//        this.x=(int)Double.parseDouble(json.get("x").toString());
-//        this.y=(int)Double.parseDouble(json.get("y").toString());
-//        this.drmX=Float.parseFloat(json.get("drmX").toString());
-//        this.drmY=Float.parseFloat(json.get("drmY").toString());
-//        this.maxHP=(int)Double.parseDouble(json.get("maxHP").toString());
-//        this.HP=(int)Double.parseDouble(json.get("HP").toString());
-//        this.frameNum=Integer.parseInt(json.get("frameNum").toString());
-//    }
     public Crewmate(JSONObject json, ChannelId id) {
-        this.id=id;
+        this.id = id;
         this.owner = json.get("owner").toString();
         this.name = json.get("name").toString();
         this.color = "Blue";
@@ -117,9 +102,10 @@ public class Crewmate {
         return result;
     }
 
+    double temp; // x, y
     // 받은 Json 객체로 업데이트
     public void update(JSONObject requestJson) {
-        double temp = Double.parseDouble(requestJson.get("x").toString());
+        temp = Double.parseDouble(requestJson.get("x").toString());
         this.x = (int)temp;
         temp = Double.parseDouble(requestJson.get("y").toString());
         this.y = (int)temp;
@@ -127,16 +113,9 @@ public class Crewmate {
         this.drmX = Float.parseFloat(requestJson.get("drmX").toString());
         this.drmY = Float.parseFloat(requestJson.get("drmY").toString());
 
-//        temp = Double.parseDouble(requestJson.get("maxHP").toString());
-//        this.maxHP = (int)temp;
-
         temp = Double.parseDouble(requestJson.get("HP").toString());
-
         this.HP = (int)temp;
 
         this.frameNum = Integer.parseInt(requestJson.get("frameNum").toString());
-
-//        this.name = requestJson.get("name").toString();
-//        this.color = requestJson.get("color").toString();
     }
 }

@@ -1,21 +1,18 @@
 package Repository;
 
-import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.util.concurrent.GlobalEventExecutor;
 import org.json.simple.JSONObject;
-
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class Room { // 게임 방
 
     ChannelGroup channels;
     ArrayList<Crewmate> crewmates; // 참가자들
-    public static ArrayList<Room> rooms = new ArrayList<>();
 
+    public static ArrayList<Room> rooms = new ArrayList<>();
     int roomCode;
 
     int aliveCrew;
@@ -26,10 +23,6 @@ public class Room { // 게임 방
         this.roomCode = roomCode;
         this.crewmates = new ArrayList<>();
         this.channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
-    }
-
-    public void deleteRoom(int roomCode) {
-        rooms.remove(Room.getRoomByCode(roomCode));
     }
 
     public ChannelGroup getChannelGroup() { return channels;}
@@ -51,7 +44,7 @@ public class Room { // 게임 방
     }
 
     public void setSuper(String Super) {
-        this.Super=Super;
+        this.Super = Super;
     }
 
     public String getSuper() {
@@ -96,5 +89,9 @@ public class Room { // 게임 방
                 crewmates.remove(crewmate);
             //System.out.println(crewmate.getInitCrewmateJson().toJSONString());
         }
+    }
+
+    public void deleteRoom(int roomCode) {
+        rooms.remove(Room.getRoomByCode(roomCode));
     }
 }

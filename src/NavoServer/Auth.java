@@ -32,8 +32,8 @@ public class Auth {
                 findPW(ctx, json, parentJson, childJson);
                 break;
             default:
-                parentJson.replace("Function",-1);
-                childJson.put("result",-1);
+                parentJson.replace("Function","-1");
+                childJson.put("result","-1");
                 parentJson.put("Body",childJson);
 
                 ctx.writeAndFlush(parentJson.toJSONString() + "\r\n");
@@ -59,7 +59,7 @@ public class Auth {
 
         //검사 결과 전송
         parentJson.put("Body",childJson);
-        ctx.writeAndFlush(parentJson.toJSONString()+"\r\n");
+        ctx.writeAndFlush(parentJson.toJSONString() + "\r\n");
     }
 
     public static void signUp(ChannelHandlerContext ctx, JSONObject json, JSONObject parentJson, JSONObject childJson) {

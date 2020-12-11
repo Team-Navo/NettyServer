@@ -1,40 +1,18 @@
 package NavoServer;
 
-
-import Repository.Room;
 import Util.JsonParser;
-import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.channel.group.ChannelGroup;
-import io.netty.channel.group.DefaultChannelGroup;
-import io.netty.util.concurrent.GlobalEventExecutor;
 import org.json.simple.JSONObject;
 
-
-
 public class ServerHandler extends ChannelInboundHandlerAdapter {
-
-    private static final ChannelGroup channelGroup = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
-    //private static final ArrayList<>
-    private class Node {
-        Channel ch;
-        int roomCode;
-    }
     @Override
     public void handlerAdded(ChannelHandlerContext ctx) {
         System.out.println("handlerAdded of [SERVER]");
-//        Channel incoming = ctx.channel();
-//        for (Channel channel : channelGroup) {
-//            //사용자가 추가되었을 때 기존 사용자에게 알림
-//            channel.write("[SERVER] - " + incoming.remoteAddress() + "has joined!\n");
-//        }
-//        channelGroup.add(incoming);
     }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx){
-        // 사용자가 접속했을 때 서버에 표시.
         System.out.println("User Access!");
     }
 
@@ -62,18 +40,15 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) { // handlerRemoved Exception Catch
-//        ctx.close();
     }
 
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) {
-//        ctx.flush();
     }
 
     @Override
     public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
         super.channelUnregistered(ctx);
-        //Event.logout(ctx);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package Database;
 
 import Database.table.User;
-
 import java.sql.*;
 
 public class DatabaseConnection {
@@ -26,6 +25,7 @@ public class DatabaseConnection {
             connector = new DatabaseConnection();
         return connector;
     }
+
     // ID 중복 체크
     public boolean idCheck(User user) {
         String sql = "SELECT id FROM user WHERE id=?;";
