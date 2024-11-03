@@ -11,7 +11,7 @@ public class DatabaseConnection {
     private static DatabaseConnection connector;
     private static Connection conn;
 
-    public DatabaseConnection(){
+    private DatabaseConnection(){
         try{
             Class.forName(JDBC_DRIVER);
             conn = DriverManager.getConnection(DB_URL, USER_NAME, PASSWORD);
